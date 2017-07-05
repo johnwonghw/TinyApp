@@ -6,12 +6,11 @@
 <body>
   <header>
     <% include partials/_headers %>
-  </header>
   <ul>
-  <% for(i in urls) { %>
-    <li>URL: <%= urls[i] %> <br> Shortened URL: <%= i %></li>
-  <% } %>
+  <% for(var i in urls) { %>
+    <li>URL: <%= urls[i] %> <br> Short URL: <%= i %> <form method="POST" action="/urls/<%= i %>/delete"><input type="submit" value="Delete Me"></form><% } %></li>
   </ul>
-  <a href="www.asdf.com">Press here to shorten link!</a>
+  <a href="/urls/new">Press here to shorten a link!</a>
+ 
 </body>
 </html>
