@@ -1,1 +1,13 @@
 <p>Hi, I'm a Header Partial</p>
+
+<% if (username) { %>
+    <p><%= username %></p>
+    <form method= "POST" action= "/logout">
+        <input type="submit" value="logout" name="username">
+    </form>
+<% } else { %>
+    <form method= "POST" action= "/login">
+        <input name="username">
+        <input type="submit" value="submit">
+    </form>
+<% } %>
