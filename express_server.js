@@ -14,14 +14,45 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com",
 };
 
+const users = { 
+  "1": {
+    id: "1", 
+    email: "boblee@example.com", 
+    password: "1234"
+  },
+ "2": {
+    id: "2", 
+    email: "gilbtwo@example.com", 
+    password: "3456"
+  }
+}
+
 function generateRandomString () {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
   for (var i = 0; i < 6; i++) {
     text += possible .charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
+};
+
+
+function userFinder (object) {
+  for (var uid in users) {
+    if (users[uid].email === object) {
+      return users[uid];
+    }
+  }
+  return undefined;
+};
+
+function passwordFinder (object) {
+  for (var uid in users) {
+    if (users[uid].password === object) {
+      return users[uid];
+    }
+  }
+  return undefined;
 };
 
 app.get("/", (req, res) => {
@@ -33,12 +64,12 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  let templateVars = { urls: urlDatabase, username: req.cookies.username}
+  let templateVars = { urls: urlDatabase, user_ID: req.cookies.user_ID}
   res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
-  let templateVars = {username: req.cookies.username}
+  let templateVars = {user_ID: req.cookies.user_ID}
   res.render("urls_new", templateVars);
 });
 
@@ -61,7 +92,7 @@ app.get("/urls/:id", (req, res) => {
   let templateVars = { 
     shortURL: req.params.id, 
     longURL: urlDatabase[req.params.id], 
-    username: req.cookies.username
+    user_ID: req.cookies.user_ID
   };
   res.render("urls_show", templateVars);
 });
@@ -102,14 +133,63 @@ app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
+app.get("/login", (req, res) => {
+  let templateVars = {user_ID: req.cookies.user_ID}
+  res.render("urls_login", templateVars)
+})
 app.post("/login", (req, res) => {
-  res.cookie('username', req.body.username)
-  res.redirect('/urls')
+ const {loginemail, loginpassword} = req.body;
+  const user = userFinder(loginemail);
+  const userpass = passwordFinder(loginpassword);
+  if (!user) {
+    return res.sendStatus(403)
+  }
+  else {
+    if (user.password !== loginpassword) {
+      return res.sendStatus(403)
+    }}
+  // compare saved PW and given password
+  res.cookie('user_ID', user.id);
+  res.redirect('/')
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_ID');
   res.redirect('/urls')
+});
+
+app.get("/register", (req, res) => {
+  let templateVars = { 
+    user_ID: req.cookies.user_ID
+  };
+  res.render("urls_register", templateVars);
+});
+
+
+function findEmail (emailstr) {
+    return users.email
+}
+
+app.post("/register", (req, res) => {
+  const newID = generateRandomString()
+  const {email, password} = req.body;
+  
+  if (!email || !password) {
+    return res.sendStatus(400)
+  }
+  
+  if (!!userFinder(email)) {
+    return res.sendStatus(400)
+  }
+
+  users[newID] = {
+    id: newID,
+    email,
+    password
+  }
+  res.cookie("user_ID", newID);
+  console.log (users);
+  return res.redirect('/urls')
 });
 
 app.listen(PORT, () => {
