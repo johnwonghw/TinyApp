@@ -10,16 +10,17 @@
   <ul>
   <% for(var i in URLS) { %>
     <li>URL: <%= URLS[i]  %> <br> Short URL: <%= i %> 
-      <a href = "/urls/<%= i %>">Edit</a>
-      <form method="POST" action="/urls/<%= i %>/delete">
-        <input type="submit" value="Delete Me">
-      </form>
+    <form method="GET" action="/urls/<%= i %>">
+      <input type="submit" value="Edit">
+    </form>
+    <form method="POST" action="/urls/<%= i %>/delete">
+      <input type="submit" value="Delete Me">
+    </form>
       <% } %>
     </li>
   </ul>
   <a href="/urls/new">Press here to shorten a link!</a>
-  <a href="/register">Register an account!</a>
-  <a href="/login">Login Here!</a>
+
  
 </body>
 </html>

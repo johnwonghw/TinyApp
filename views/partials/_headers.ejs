@@ -1,7 +1,5 @@
-<p>Hi, I'm a Header Partial</p>
-
 <% if (user_ID) { %>
-    <p><%= user_ID %></p>
+    <p><%= user_ID.email %></p>
     <form method= "POST" action= "/logout">
         <input type="submit" value="logout" name="user_ID">
     </form>
