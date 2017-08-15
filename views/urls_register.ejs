@@ -11,11 +11,20 @@
   </header>
 <br>
 <form action="/register" method="POST">
-    <label for="email">E-mail:</label>
-    <input name="email" type="email">
-    <label for="password">Password:</label>
-    <input name="password" type="password">
-    <input type="submit" value="register">
+  <div class="form-group row col-md-6">
+    <label for="email" class="col-sm-2 col-form-label">E-mail</label>
+    <div class="col-sm-10">
+      <input name="email" type="email" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row col-md-6">
+    <label for="password" class="col-sm-2 col-form-label">Password:</label>
+    <div class="col-sm-10">
+      <input name="password" type="password" class="form-control">
+    </div>
+    <div class="col-auto">  
+      <input type="submit" value="register" class="btn btn-primary">
+    </div>
 </form>
 
 </body>
