@@ -33,15 +33,15 @@ const urlDatabase = {
   // }
 }
 
-const users = { 
+const users = {
 //   "1": {
-//     id: "1", 
-//     email: "boblee@example.com", 
+//     id: "1",
+//     email: "boblee@example.com",
 //     password: "1234"
 //   },
 //  "2": {
-//     id: "2", 
-//     email: "gilbtwo@example.com", 
+//     id: "2",
+//     email: "gilbtwo@example.com",
 //     password: "3456"
 //   }
 }
@@ -96,7 +96,7 @@ app.get("/urls", (req, res) => {
   var newUserURLS = urlsForUser(req.session.user_ID)
   let templateVars = {
     URLS: newUserURLS,
-    user_ID_urls: urlDatabase[req.session.user_ID], 
+    user_ID_urls: urlDatabase[req.session.user_ID],
     user_ID: users[req.session.user_ID]
   }
   if (req.session.user_ID) {
@@ -104,7 +104,7 @@ app.get("/urls", (req, res) => {
   } else {
     res.render("urls_not_found")
   }
-  
+
 });
 
 app.get("/urls/new", (req, res) => {
@@ -120,7 +120,7 @@ app.get("/urls/new", (req, res) => {
 
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  
+  console.log(req.body);
   const newcode = generateRandomString();
   var longUrl = req.body.longURL;
   if (!longUrl.startsWith('http://') && !longUrl.startsWith('https://')) {
@@ -135,9 +135,9 @@ app.post("/urls", (req, res) => {
 
 app.get("/urls/:id", (req, res) => {
   console.log(req.params.id)
-  let templateVars = { 
-    shortURL: req.params.id, 
-    longURL: urlDatabase[req.params.id], 
+  let templateVars = {
+    shortURL: req.params.id,
+    longURL: urlDatabase[req.params.id],
     user_ID: users[req.session.user_ID],
   };
 
@@ -171,9 +171,9 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.post ("/urls/:id/delete", (req,res) => {
-  let templateVars = { 
-    shortURL: req.params.id, 
-    longURL: urlDatabase[req.params.id].long, 
+  let templateVars = {
+    shortURL: req.params.id,
+    longURL: urlDatabase[req.params.id].long,
     user_ID: users[req.session.user_ID],
   };
   if (urlDatabase[req.params.id].ID === req.session.user_ID) {
@@ -218,7 +218,7 @@ app.post("/logout", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  let templateVars = { 
+  let templateVars = {
     user_ID: users[req.session.user_ID],};
   if (req.session.user_ID === undefined) {
     res.render("urls_register", templateVars);
